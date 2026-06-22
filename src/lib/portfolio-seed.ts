@@ -1,12 +1,12 @@
-import a1 from "@/assets/portfolio/mary-110913.asset.json";
-import a2 from "@/assets/portfolio/mary-110928.asset.json";
-import a3 from "@/assets/portfolio/mary-111003.asset.json";
-import a4 from "@/assets/portfolio/mary-111018.asset.json";
-import a5 from "@/assets/portfolio/mary-111040.asset.json";
-import a6 from "@/assets/portfolio/mary-111105.asset.json";
-import a7 from "@/assets/portfolio/mary-111122.asset.json";
-import a8 from "@/assets/portfolio/mary-111136.asset.json";
-import a9 from "@/assets/portfolio/mary-111144.asset.json";
+import a1 from "@/assets/portfolio/mary-01.asset.json";
+import a2 from "@/assets/portfolio/mary-02.asset.json";
+import a3 from "@/assets/portfolio/mary-03.asset.json";
+import a4 from "@/assets/portfolio/mary-04.asset.json";
+import a5 from "@/assets/portfolio/mary-05.asset.json";
+import a6 from "@/assets/portfolio/mary-06.asset.json";
+import a7 from "@/assets/portfolio/mary-07.asset.json";
+import a8 from "@/assets/portfolio/mary-08.asset.json";
+import a9 from "@/assets/portfolio/mary-09.asset.json";
 
 export type SeedPhoto = { id: string; url: string; category: "street" | "sensual"; title: string; caption?: string };
 

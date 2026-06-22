@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { getSupabaseServerClient } from "@/integrations/supabase/client.server";
 
 const schema = z.object({
   name: z.string().min(2).max(120),
@@ -13,10 +12,10 @@ const schema = z.object({
 });
 
 export const createBooking = createServerFn({ method: "POST" })
-  .validator((d: unknown) => schema.parse(d))
+  .inputValidator((d: unknown) => schema.parse(d))
   .handler(async ({ data }) => {
-    const supabase = getSupabaseServerClient();
-    const { error } = await supabase.from("bookings").insert({
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("bookings").insert({
       name: data.name,
       email: data.email,
       phone: data.phone ?? null,
