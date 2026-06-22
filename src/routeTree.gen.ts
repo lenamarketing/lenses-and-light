@@ -9,61 +9,215 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as SiteIndexRouteImport } from './routes/_site.index'
+import { Route as SiteJournalRouteImport } from './routes/_site.journal'
+import { Route as SiteContactRouteImport } from './routes/_site.contact'
+import { Route as SiteBookRouteImport } from './routes/_site.book'
+import { Route as SiteAboutRouteImport } from './routes/_site.about'
+import { Route as SitePortfolioCategoryRouteImport } from './routes/_site.portfolio.$category'
+import { Route as SiteJournalSlugRouteImport } from './routes/_site.journal.$slug'
 
-const IndexRoute = IndexRouteImport.update({
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteJournalRoute = SiteJournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteContactRoute = SiteContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteBookRoute = SiteBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAboutRoute = SiteAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePortfolioCategoryRoute = SitePortfolioCategoryRouteImport.update({
+  id: '/portfolio/$category',
+  path: '/portfolio/$category',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteJournalSlugRoute = SiteJournalSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SiteJournalRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof SiteIndexRoute
+  '/about': typeof SiteAboutRoute
+  '/book': typeof SiteBookRoute
+  '/contact': typeof SiteContactRoute
+  '/journal': typeof SiteJournalRouteWithChildren
+  '/journal/$slug': typeof SiteJournalSlugRoute
+  '/portfolio/$category': typeof SitePortfolioCategoryRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/about': typeof SiteAboutRoute
+  '/book': typeof SiteBookRoute
+  '/contact': typeof SiteContactRoute
+  '/journal': typeof SiteJournalRouteWithChildren
+  '/': typeof SiteIndexRoute
+  '/journal/$slug': typeof SiteJournalSlugRoute
+  '/portfolio/$category': typeof SitePortfolioCategoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_site': typeof SiteRouteWithChildren
+  '/_site/about': typeof SiteAboutRoute
+  '/_site/book': typeof SiteBookRoute
+  '/_site/contact': typeof SiteContactRoute
+  '/_site/journal': typeof SiteJournalRouteWithChildren
+  '/_site/': typeof SiteIndexRoute
+  '/_site/journal/$slug': typeof SiteJournalSlugRoute
+  '/_site/portfolio/$category': typeof SitePortfolioCategoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/book'
+    | '/contact'
+    | '/journal'
+    | '/journal/$slug'
+    | '/portfolio/$category'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/about'
+    | '/book'
+    | '/contact'
+    | '/journal'
+    | '/'
+    | '/journal/$slug'
+    | '/portfolio/$category'
+  id:
+    | '__root__'
+    | '/_site'
+    | '/_site/about'
+    | '/_site/book'
+    | '/_site/contact'
+    | '/_site/journal'
+    | '/_site/'
+    | '/_site/journal/$slug'
+    | '/_site/portfolio/$category'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  SiteRoute: typeof SiteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/journal': {
+      id: '/_site/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof SiteJournalRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/contact': {
+      id: '/_site/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof SiteContactRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/book': {
+      id: '/_site/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof SiteBookRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/about': {
+      id: '/_site/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof SiteAboutRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/portfolio/$category': {
+      id: '/_site/portfolio/$category'
+      path: '/portfolio/$category'
+      fullPath: '/portfolio/$category'
+      preLoaderRoute: typeof SitePortfolioCategoryRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/journal/$slug': {
+      id: '/_site/journal/$slug'
+      path: '/$slug'
+      fullPath: '/journal/$slug'
+      preLoaderRoute: typeof SiteJournalSlugRouteImport
+      parentRoute: typeof SiteJournalRoute
     }
   }
 }
 
+interface SiteJournalRouteChildren {
+  SiteJournalSlugRoute: typeof SiteJournalSlugRoute
+}
+
+const SiteJournalRouteChildren: SiteJournalRouteChildren = {
+  SiteJournalSlugRoute: SiteJournalSlugRoute,
+}
+
+const SiteJournalRouteWithChildren = SiteJournalRoute._addFileChildren(
+  SiteJournalRouteChildren,
+)
+
+interface SiteRouteChildren {
+  SiteAboutRoute: typeof SiteAboutRoute
+  SiteBookRoute: typeof SiteBookRoute
+  SiteContactRoute: typeof SiteContactRoute
+  SiteJournalRoute: typeof SiteJournalRouteWithChildren
+  SiteIndexRoute: typeof SiteIndexRoute
+  SitePortfolioCategoryRoute: typeof SitePortfolioCategoryRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteAboutRoute: SiteAboutRoute,
+  SiteBookRoute: SiteBookRoute,
+  SiteContactRoute: SiteContactRoute,
+  SiteJournalRoute: SiteJournalRouteWithChildren,
+  SiteIndexRoute: SiteIndexRoute,
+  SitePortfolioCategoryRoute: SitePortfolioCategoryRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  SiteRoute: SiteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
