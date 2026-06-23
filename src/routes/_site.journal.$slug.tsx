@@ -26,21 +26,23 @@ function Story() {
 
   if (!data) {
     return (
-      <div className="mx-auto max-w-2xl px-6 py-24 text-center">
-        <p className="eyebrow text-muted-foreground">Coming soon</p>
-        <h1 className="mt-6 font-display text-5xl capitalize">{slug.replace(/-/g, " ")}</h1>
-        <p className="mt-6 text-muted-foreground">This piece hasn't been published yet. <Link to="/journal" className="text-accent underline">Back to journal</Link>.</p>
+      <div className="mx-auto max-w-3xl px-6 py-24 md:py-40 text-center">
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">— Coming soon</p>
+        <h1 className="font-display text-6xl md:text-7xl font-light tracking-[-0.04em] capitalize">{slug.replace(/-/g, " ")}</h1>
+        <p className="mt-8 text-muted-foreground">
+          Not published yet. <Link to="/journal" className="link-underline">Back to journal</Link>.
+        </p>
       </div>
     );
   }
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <Link to="/journal" className="eyebrow text-muted-foreground hover:text-accent">← Journal</Link>
-      <h1 className="mt-8 font-display text-5xl md:text-6xl leading-tight">{data.title}</h1>
-      {data.excerpt && <p className="mt-6 text-xl text-muted-foreground italic font-display">{data.excerpt}</p>}
+      <Link to="/journal" className="text-xs uppercase tracking-[0.2em] text-muted-foreground link-underline">← Journal</Link>
+      <h1 className="mt-10 font-display text-5xl md:text-7xl font-light tracking-[-0.04em] leading-[0.95]">{data.title}</h1>
+      {data.excerpt && <p className="mt-8 text-xl text-muted-foreground leading-relaxed">{data.excerpt}</p>}
       {data.cover_url && <img src={data.cover_url} alt="" className="mt-12 w-full" />}
-      <div className="mt-12 font-display text-lg leading-relaxed whitespace-pre-wrap">{data.content}</div>
+      <div className="mt-12 text-lg leading-relaxed whitespace-pre-wrap">{data.content}</div>
     </article>
   );
 }
