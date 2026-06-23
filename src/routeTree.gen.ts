@@ -15,7 +15,8 @@ import { Route as SiteJournalRouteImport } from './routes/_site.journal'
 import { Route as SiteContactRouteImport } from './routes/_site.contact'
 import { Route as SiteBookRouteImport } from './routes/_site.book'
 import { Route as SiteAboutRouteImport } from './routes/_site.about'
-import { Route as SitePortfolioCategoryRouteImport } from './routes/_site.portfolio.$category'
+import { Route as SiteWorkStreetRouteImport } from './routes/_site.work.street'
+import { Route as SiteWorkPersonalRouteImport } from './routes/_site.work.personal'
 import { Route as SiteJournalSlugRouteImport } from './routes/_site.journal.$slug'
 
 const SiteRoute = SiteRouteImport.update({
@@ -47,9 +48,14 @@ const SiteAboutRoute = SiteAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => SiteRoute,
 } as any)
-const SitePortfolioCategoryRoute = SitePortfolioCategoryRouteImport.update({
-  id: '/portfolio/$category',
-  path: '/portfolio/$category',
+const SiteWorkStreetRoute = SiteWorkStreetRouteImport.update({
+  id: '/work/street',
+  path: '/work/street',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteWorkPersonalRoute = SiteWorkPersonalRouteImport.update({
+  id: '/work/personal',
+  path: '/work/personal',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteJournalSlugRoute = SiteJournalSlugRouteImport.update({
@@ -65,7 +71,8 @@ export interface FileRoutesByFullPath {
   '/contact': typeof SiteContactRoute
   '/journal': typeof SiteJournalRouteWithChildren
   '/journal/$slug': typeof SiteJournalSlugRoute
-  '/portfolio/$category': typeof SitePortfolioCategoryRoute
+  '/work/personal': typeof SiteWorkPersonalRoute
+  '/work/street': typeof SiteWorkStreetRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof SiteAboutRoute
@@ -74,7 +81,8 @@ export interface FileRoutesByTo {
   '/journal': typeof SiteJournalRouteWithChildren
   '/': typeof SiteIndexRoute
   '/journal/$slug': typeof SiteJournalSlugRoute
-  '/portfolio/$category': typeof SitePortfolioCategoryRoute
+  '/work/personal': typeof SiteWorkPersonalRoute
+  '/work/street': typeof SiteWorkStreetRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,7 +93,8 @@ export interface FileRoutesById {
   '/_site/journal': typeof SiteJournalRouteWithChildren
   '/_site/': typeof SiteIndexRoute
   '/_site/journal/$slug': typeof SiteJournalSlugRoute
-  '/_site/portfolio/$category': typeof SitePortfolioCategoryRoute
+  '/_site/work/personal': typeof SiteWorkPersonalRoute
+  '/_site/work/street': typeof SiteWorkStreetRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,7 +105,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journal/$slug'
-    | '/portfolio/$category'
+    | '/work/personal'
+    | '/work/street'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -105,7 +115,8 @@ export interface FileRouteTypes {
     | '/journal'
     | '/'
     | '/journal/$slug'
-    | '/portfolio/$category'
+    | '/work/personal'
+    | '/work/street'
   id:
     | '__root__'
     | '/_site'
@@ -115,7 +126,8 @@ export interface FileRouteTypes {
     | '/_site/journal'
     | '/_site/'
     | '/_site/journal/$slug'
-    | '/_site/portfolio/$category'
+    | '/_site/work/personal'
+    | '/_site/work/street'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -166,11 +178,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteAboutRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/_site/portfolio/$category': {
-      id: '/_site/portfolio/$category'
-      path: '/portfolio/$category'
-      fullPath: '/portfolio/$category'
-      preLoaderRoute: typeof SitePortfolioCategoryRouteImport
+    '/_site/work/street': {
+      id: '/_site/work/street'
+      path: '/work/street'
+      fullPath: '/work/street'
+      preLoaderRoute: typeof SiteWorkStreetRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/work/personal': {
+      id: '/_site/work/personal'
+      path: '/work/personal'
+      fullPath: '/work/personal'
+      preLoaderRoute: typeof SiteWorkPersonalRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/journal/$slug': {
@@ -201,7 +220,8 @@ interface SiteRouteChildren {
   SiteContactRoute: typeof SiteContactRoute
   SiteJournalRoute: typeof SiteJournalRouteWithChildren
   SiteIndexRoute: typeof SiteIndexRoute
-  SitePortfolioCategoryRoute: typeof SitePortfolioCategoryRoute
+  SiteWorkPersonalRoute: typeof SiteWorkPersonalRoute
+  SiteWorkStreetRoute: typeof SiteWorkStreetRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
@@ -210,7 +230,8 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteContactRoute: SiteContactRoute,
   SiteJournalRoute: SiteJournalRouteWithChildren,
   SiteIndexRoute: SiteIndexRoute,
-  SitePortfolioCategoryRoute: SitePortfolioCategoryRoute,
+  SiteWorkPersonalRoute: SiteWorkPersonalRoute,
+  SiteWorkStreetRoute: SiteWorkStreetRoute,
 }
 
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
