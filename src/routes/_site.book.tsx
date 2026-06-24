@@ -6,15 +6,16 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { createBooking } from "@/lib/bookings.functions";
 import { useServerFn } from "@tanstack/react-start";
+import { useLang } from "@/lib/lang-context";
 
 const schema = z.object({
-  name: z.string().min(2, "Your name, please"),
-  email: z.string().email("A reachable email"),
+  name: z.string().min(2),
+  email: z.string().email(),
   phone: z.string().optional(),
   session_type: z.enum(["sensual", "street_portrait", "couple", "other"]),
   preferred_date: z.string().optional(),
   location: z.string().optional(),
-  message: z.string().min(10, "A few words"),
+  message: z.string().min(10),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/_site/book")({
 });
 
 function BookPage() {
+  const { T } = useLang();
   const [sent, setSent] = useState(false);
   const createFn = useServerFn(createBooking);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
@@ -40,18 +42,18 @@ function BookPage() {
     try {
       await createFn({ data: values });
       setSent(true);
-      toast.success("Sent. I'll write back within 48h.");
+      toast.success(T.book.toastSent);
     } catch (e: any) {
-      toast.error(e?.message ?? "Couldn't send.");
+      toast.error(e?.message ?? T.book.toastErr);
     }
   };
 
   if (sent) {
     return (
       <div className="mx-auto max-w-3xl px-6 py-32 md:py-48 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">— Received</p>
-        <h1 className="font-display text-[clamp(3rem,10vw,9rem)] font-light tracking-[-0.05em] leading-[0.9]">Thank you.</h1>
-        <p className="mt-8 text-lg text-muted-foreground">I read every request myself. Reply within 48 hours.</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">{T.book.sentBadge}</p>
+        <h1 className="font-display text-[clamp(3rem,10vw,9rem)] font-light tracking-[-0.05em] leading-[0.9]">{T.book.thanks}</h1>
+        <p className="mt-8 text-lg text-muted-foreground">{T.book.sentBody}</p>
       </div>
     );
   }
@@ -60,53 +62,50 @@ function BookPage() {
     <>
       <section className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-24 pb-12">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">— Book a session</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">{T.book.badge}</p>
           <h1 className="font-display text-[clamp(3rem,11vw,11rem)] font-light tracking-[-0.05em] leading-[0.9]">
-            Tell me<br /><span className="text-muted-foreground">what you want</span><br />to make.
+            {T.book.h1a}<br /><span className="text-muted-foreground">{T.book.h1b}</span><br />{T.book.h1c}
           </h1>
         </div>
       </section>
 
       <article className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-24 grid md:grid-cols-12 gap-12">
         <div className="md:col-span-5 space-y-10">
-          <Block t="Sensual / Boudoir" sub="90 min · indoor · from €450" />
-          <Block t="Portrait" sub="60 min · your city · from €300" />
-          <Block t="Street portrait" sub="2h · outdoor · from €350" />
-          <Block t="Couple / Intimate" sub="2h · your location · from €600" />
+          {T.book.sessions.map((s) => <Block key={s.t} t={s.t} sub={s.sub} />)}
           <p className="text-xs text-muted-foreground leading-relaxed pt-6 border-t border-border">
-            All sessions include 25+ edited photographs, delivered in a private gallery within 14 days. Prints available.
+            {T.book.includes}
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="md:col-span-7 space-y-8">
-          <Field label="Name" error={errors.name?.message}>
+          <Field label={T.book.name} error={errors.name?.message}>
             <input {...register("name")} className={inputCls} />
           </Field>
           <div className="grid md:grid-cols-2 gap-8">
-            <Field label="Email" error={errors.email?.message}>
+            <Field label={T.book.email} error={errors.email?.message}>
               <input type="email" {...register("email")} className={inputCls} />
             </Field>
-            <Field label="Phone (optional)">
+            <Field label={T.book.phone}>
               <input {...register("phone")} className={inputCls} />
             </Field>
           </div>
-          <Field label="Session type">
+          <Field label={T.book.sessionType}>
             <select {...register("session_type")} className={inputCls}>
-              <option value="sensual">Sensual / Boudoir</option>
-              <option value="street_portrait">Portrait</option>
-              <option value="couple">Couple / Intimate</option>
-              <option value="other">Something else</option>
+              <option value="sensual">{T.book.types.sensual}</option>
+              <option value="street_portrait">{T.book.types.portrait}</option>
+              <option value="couple">{T.book.types.couple}</option>
+              <option value="other">{T.book.types.other}</option>
             </select>
           </Field>
           <div className="grid md:grid-cols-2 gap-8">
-            <Field label="Preferred date">
+            <Field label={T.book.preferredDate}>
               <input type="date" {...register("preferred_date")} className={inputCls} />
             </Field>
-            <Field label="Location">
-              <input {...register("location")} placeholder="City or 'your studio'" className={inputCls} />
+            <Field label={T.book.location}>
+              <input {...register("location")} placeholder={T.book.locationPh} className={inputCls} />
             </Field>
           </div>
-          <Field label="A few words" error={errors.message?.message}>
+          <Field label={T.book.words} error={errors.message?.message}>
             <textarea rows={5} {...register("message")} className={inputCls} />
           </Field>
           <button
@@ -114,7 +113,7 @@ function BookPage() {
             disabled={isSubmitting}
             className="text-sm font-semibold px-8 py-4 rounded-full bg-foreground text-background hover:bg-foreground/80 disabled:opacity-50 transition-colors"
           >
-            {isSubmitting ? "Sending…" : "Send request →"}
+            {isSubmitting ? T.book.sending : T.book.send}
           </button>
         </form>
       </article>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLang } from "@/lib/lang-context";
 
 export const Route = createFileRoute("/_site/journal")({
   head: () => ({
@@ -19,6 +20,7 @@ const SEED_STORIES = [
 ];
 
 function Journal() {
+  const { T, lang } = useLang();
   const { data } = useQuery({
     queryKey: ["stories"],
     queryFn: async () => {
@@ -32,9 +34,9 @@ function Journal() {
     <>
       <section className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-24 pb-12">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">— Journal</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">{T.journal.badge}</p>
           <h1 className="font-display text-[clamp(3rem,12vw,12rem)] font-light tracking-[-0.05em] leading-[0.88]">
-            Notes from<br /><span className="text-muted-foreground">behind</span> the lens.
+            {T.journal.h1a}<br /><span className="text-muted-foreground">{T.journal.h1b}</span> {T.journal.h1c}
           </h1>
         </div>
       </section>
@@ -49,7 +51,7 @@ function Journal() {
               className="group grid md:grid-cols-12 gap-6 py-10 md:py-14 items-baseline hover:bg-secondary px-3 -mx-3 transition-colors"
             >
               <p className="md:col-span-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                {s.category ?? "Note"} · {new Date(s.created_at).toLocaleDateString("en", { year: "numeric", month: "short" })}
+                {s.category ?? "Note"} · {new Date(s.created_at).toLocaleDateString(lang === 'pt' ? 'pt-PT' : 'en', { year: "numeric", month: "short" })}
               </p>
               <h2 className="md:col-span-7 font-display text-4xl md:text-6xl font-light tracking-[-0.04em] leading-[0.95]">{s.title}</h2>
               <p className="md:col-span-3 text-sm text-muted-foreground">{s.excerpt}</p>

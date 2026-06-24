@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { X } from "lucide-react";
+import { useLang } from "@/lib/lang-context";
 
 type Photo = { id: string; url: string; title: string; caption?: string; sub: string };
 
@@ -15,6 +16,7 @@ export function WorkPage({
   basePath: string;
   photos: Photo[];
 }) {
+  const { T } = useLang();
   const [lightbox, setLightbox] = useState<string | null>(null);
   const filtered = photos.filter((p) => p.sub === activeTab);
   const activeMeta = subs.find((s) => s.key === activeTab);
@@ -23,13 +25,12 @@ export function WorkPage({
     <article>
       <header className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-24 pb-12 md:pb-16">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">— Chapter {n}</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-8">— {T.work.chapter} {n}</p>
           <h1 className="font-display text-[clamp(4rem,18vw,18rem)] font-light tracking-[-0.06em] leading-[0.85]">{title}</h1>
           <p className="mt-10 max-w-xl text-base md:text-lg leading-relaxed">{blurb}</p>
         </div>
       </header>
 
-      {/* TABS */}
       <div className="sticky top-16 md:top-20 z-30 bg-background/95 backdrop-blur border-b border-border">
         <div className="mx-auto max-w-[1600px] px-6 md:px-10 flex items-center gap-1 overflow-x-auto">
           {subs.map((s) => {
@@ -55,14 +56,14 @@ export function WorkPage({
 
         {filtered.length === 0 ? (
           <div className="border border-dashed border-border py-32 text-center">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Coming soon</p>
-            <p className="mt-4 font-display text-4xl md:text-5xl font-light tracking-tight">New edition in progress.</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{T.work.comingSoon}</p>
+            <p className="mt-4 font-display text-4xl md:text-5xl font-light tracking-tight">{T.work.inProgress}</p>
             <a
               href="https://maryhadalittlelens.darkroom.com/"
               target="_blank" rel="noreferrer"
               className="inline-block mt-8 text-sm font-semibold px-6 py-3 rounded-full border border-foreground hover:bg-foreground hover:text-background transition-colors"
             >
-              Existing prints on Darkroom ↗
+              {T.work.existingPrints}
             </a>
           </div>
         ) : (
@@ -89,10 +90,12 @@ export function WorkPage({
 
       <div className="mx-auto max-w-[1600px] px-6 md:px-10 pb-32 pt-16 border-t border-border flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
         <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-light tracking-[-0.04em] leading-[0.95] max-w-xl">
-          Want one like<br />these?
+          {T.work.wantOne.split('\n').map((line, i) => (
+            <span key={i}>{line}{i === 0 && <br />}</span>
+          ))}
         </h2>
         <Link to="/book" className="text-sm font-semibold px-6 py-3.5 rounded-full bg-foreground text-background hover:bg-foreground/80 transition-colors whitespace-nowrap">
-          Book a session →
+          {T.work.book}
         </Link>
       </div>
 
