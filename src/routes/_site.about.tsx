@@ -79,6 +79,6 @@ function About() {
                                   </Link>
                         </div>
                 </section>
-          </>>
+          </>
         );
 }

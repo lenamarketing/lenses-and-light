@@ -147,6 +147,6 @@ function Home() {
                                   </Link>
                         </div>
                 </section>
-          </>>
+          </>
         );
 }
