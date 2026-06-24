@@ -19,7 +19,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     return (
           <LangContext.Provider value={{ lang, setLang, T: t[lang] }}>
             {children}
-          </LangContext.Provider>LangContext.Provider>
+          </LangContext.Provider>
         );
 }
 
