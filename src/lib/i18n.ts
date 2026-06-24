@@ -235,4 +235,4 @@ export const t = {
             },
         },
     },
-} as const;
+};

@@ -22,7 +22,7 @@ function Chapter({ to, n, title, copy, photos }: { to: string; n: string; title:
                 <div className="grid grid-cols-3 gap-2 mb-6">
                   {photos.map((p) => (
                       <div key={p.id} className="aspect-[4/5] overflow-hidden bg-muted">
-                                  <img src={p.src} alt={p.alt} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
+                                  <img src={p.url} alt={p.title} className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" />
                       </div>
                     ))}
                 </div>
