@@ -29,49 +29,49 @@ export function SiteNav() {
                                       className={`text-sm font-medium tracking-tight transition-colors hover:text-foreground ${path.startsWith(n.to) ? "text-foreground" : "text-muted-foreground"}`}
                                     >
                         {n.label}
-                      </Link>Link>
+                      </Link>
                     ))}
                                 <Link
                                               to="/book"
                                               className="text-sm font-semibold px-5 py-2.5 rounded-full bg-foreground text-background hover:bg-foreground/80 transition-colors"
                                             >
                                   {T.nav.book}
-                                </Link>Link>
+                                </Link>
                                 <button
                                               onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
                                               className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors px-2 py-1 border border-border rounded"
                                               aria-label="Switch language"
                                             >
                                   {lang === 'en' ? 'PT' : 'EN'}
-                                </button>button>
-                      </nav>nav>
+                                </button>
+                      </nav>
                       <div className="flex items-center gap-3 md:hidden">
                                 <button
                                               onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
                                               className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors px-2 py-1 border border-border rounded"
                                             >
                                   {lang === 'en' ? 'PT' : 'EN'}
-                                </button>button>
+                                </button>
                                 <button className="p-2 -mr-2" onClick={() => setOpen(!open)} aria-label="Menu">
                                   {open ? <X size={22} /> : <Menu size={22} />}
-                                </button>button>
-                      </div>div>
-              </div>div>
+                                </button>
+                      </div>
+              </div>
           {open && (
                   <div className="md:hidden border-t border-border bg-background">
                             <div className="px-6 py-8 flex flex-col gap-6">
                               {NAV.map((n) => (
                                   <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="font-display text-4xl font-light tracking-tight">
                                     {n.label}
-                                  </Link>Link>
+                                  </Link>
                                 ))}
                                         <Link to="/book" onClick={() => setOpen(false)} className="text-sm font-semibold px-5 py-3 rounded-full bg-foreground text-background text-center mt-4">
                                           {T.nav.bookSession}
-                                        </Link>Link>
-                            </div>div>
-                  </div>div>
+                                        </Link>
+                            </div>
+                  </div>
               )}
-        </header>header>
+        </header>
       );
 }
 </header>
